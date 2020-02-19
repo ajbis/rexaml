@@ -26,7 +26,7 @@
     "build-storybook": "build-storybook -s public",
     "styleguide": "styleguidist server",
     "styleguide:build": "styleguidist build",
-    "lint": "eslint src/** --ext .jsx,.js --max-warnings 0"
+    "lint": "eslint src/components/** --ext .jsx,.js --max-warnings 0"
   },
   "eslintConfig": {
     "extends": [
