@@ -11,6 +11,7 @@
     "babel-loader": "^8.0.6",
     "eslint-plugin-react": "^7.18.3",
     "install": "^0.13.0",
+    "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-scripts": "3.3.1",
@@ -32,8 +33,25 @@
     "extends": [
       "airbnb",
       "react-app",
-      "eslint-config-prettier"
-    ]
+      "eslint-config-prettier",
+      "plugin:jsx-a11y/strict"
+    ],
+    "rules": {
+      "react/require-default-props": 0,
+      "react/jsx-wrap-multilines": 0,
+      "react/jsx-one-expression-per-line": 0,
+      "arrow-body-style": [
+        "error",
+        "as-needed"
+      ],
+      "quotes": [
+        "error",
+        "single",
+        {
+          "avoidEscape": true
+        }
+      ]
+    }
   },
   "browserslist": {
     "production": [

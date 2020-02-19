@@ -2,9 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Canvas = ({ children }) => (
-    <div className="Canvas">
-      {children}
-    </div>
+  <div className="Canvas">
+    {children}
+  </div>
 );
 
 Canvas.propTypes = {
