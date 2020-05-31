@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.4.0",
     "@testing-library/user-event": "^7.1.2",
     "babel-loader": "^8.0.6",
+    "cross-env": "^7.0.2",
     "eslint-plugin-react": "^7.18.3",
     "install": "^0.13.0",
     "prop-types": "^15.7.2",
@@ -19,15 +20,15 @@
     "styled-components": "^5.0.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "storybook": "start-storybook -p 9003 -s public",
-    "build-storybook": "build-storybook -s public",
-    "styleguide": "styleguidist server",
-    "styleguide:build": "styleguidist build",
-    "lint": "eslint src/components/** --ext .jsx,.js --max-warnings 0"
+    "start": "cross-env NODE_PATH=src react-scripts start",
+    "build": "cross-env NODE_PATH=src react-scripts build",
+    "test": "cross-env NODE_PATH=src react-scripts test",
+    "eject": "cross-env react-scripts eject",
+    "storybook": "cross-env NODE_PATH=src start-storybook -p 9003 -s public",
+    "build-storybook": "cross-env NODE_PATH=src build-storybook -s public",
+    "styleguide": "cross-env styleguidist server",
+    "styleguide:build": "cross-env styleguidist build",
+    "lint": "cross-env eslint src/components/** --ext .jsx,.js --max-warnings 0"
   },
   "eslintConfig": {
     "extends": [
