@@ -1,12 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import sizePropType from '../../../util/sizePropType';
 import convertSizeValue from '../../../util/convertSizeValue';
+import { Consumer, Provider, createSizes } from '../../context/AutoSizeContext';
 
-const Element = styled.div((height, width) => ({
-  height: convertSizeValue(height),
-  width: convertSizeValue(width),
+const Element = styled.div((Height, Width) => ({
+  height: convertSizeValue(Height),
+  width: convertSizeValue(Width),
 }));
 
 /**
@@ -17,10 +18,17 @@ const Canvas = ({ Height = 'Auto', Width = 'Auto', children }) => {
   console.log('Height', Height);
   console.log('Width', Width);
 
+
   return (
-    <Element className="Canvas" height={Height} width={Width}>
-      {children}
-    </Element>
+    <Consumer>
+      {sizes => (
+        <Element className="Canvas" Height={Height} Width={Width}>
+          <Provider value={createSizes()}>
+            {children}
+          </Provider>
+        </Element>
+      )}
+    </Consumer>
   )
 };
 

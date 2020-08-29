@@ -1,6 +1,8 @@
 import React from 'react';
+import styled from 'styled-components';
 import { withA11y } from '@storybook/addon-a11y';
 import { withKnobs, number, select } from '@storybook/addon-knobs';
+import Page from '../../../Page/Page';
 import Canvas from '../index';
 
 export default {
@@ -8,6 +10,12 @@ export default {
   component: Canvas,
   decorators: [ withA11y, withKnobs ],
 };
+
+const Content = styled.div(({ background }) => ({
+  background,
+  height: '100%',
+  width: '100&',
+}));
 
 export const canvas = () => {
   const heightType = select('Height type', ['Auto', '*', 'Number'], 'Auto');
@@ -32,12 +40,20 @@ export const canvas = () => {
   console.log('width?', widthType === '*' ? `${widthValue}*` : widthValue);
 
   return (
-      <Canvas
-        Height={heightType === '*' ? `${heightValue}*` : heightValue}
-        Width={widthType === '*' ? `${widthValue}*` : widthValue}
-      >
-        Hello World!
-      </Canvas>
+      <Page>
+        <Canvas
+          Height={heightType === '*' ? `${heightValue}*` : heightValue}
+          Width={widthType === '*' ? `${widthValue}*` : widthValue}
+        >
+          <Content background="red">Canvas 1</Content>
+        </Canvas>
+        <Canvas
+          Height={heightType === '*' ? `${heightValue}*` : heightValue}
+          Width={widthType === '*' ? `${widthValue}*` : widthValue}
+        >
+          <Content background="green">Canvas 2</Content>
+        </Canvas>
+      </Page>
   );
 };
 
