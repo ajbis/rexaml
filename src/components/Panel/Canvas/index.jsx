@@ -4,10 +4,11 @@ import styled from 'styled-components';
 import sizePropType from '../../../util/sizePropType';
 import convertSizeValue from '../../../util/convertSizeValue';
 import { Consumer, Provider, createSizes } from '../../context/AutoSizeContext';
+import useSizeId from '../../hooks/useSizeId';
 
 const Element = styled.div((Height, Width) => ({
-  height: convertSizeValue(Height),
-  width: convertSizeValue(Width),
+  height: Height, // convertSizeValue(Height),
+  width: Width, // convertSizeValue(Width),
 }));
 
 /**
@@ -15,19 +16,27 @@ const Element = styled.div((Height, Width) => ({
  * using coordinates that are relative to the Canvas area.
  */
 const Canvas = ({ Height = 'Auto', Width = 'Auto', children }) => {
-  console.log('Height', Height);
-  console.log('Width', Width);
-
+  const sizeId = useSizeId();
 
   return (
     <Consumer>
-      {sizes => (
-        <Element className="Canvas" Height={Height} Width={Width}>
-          <Provider value={createSizes()}>
-            {children}
-          </Provider>
-        </Element>
-      )}
+      {({
+        getHeightOf,
+        getWidthOf,
+        setHeightOf,
+        setWidthOf,
+      }) => {
+        setHeightOf(sizeId, Height);
+        setWidthOf(sizeId, Width);
+
+        return (
+          <Element className="Canvas" Height={getHeightOf(sizeId).cssValue} Width={getWidthOf(sizeId).cssValue}>
+            <Provider value={createSizes()}>
+              {children}
+            </Provider>
+          </Element>
+        );
+      }}
     </Consumer>
   )
 };

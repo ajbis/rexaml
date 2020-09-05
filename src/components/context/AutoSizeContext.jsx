@@ -1,33 +1,6 @@
 import { createContext } from 'react';
 
 /**
- * Shape of object is:
- * sizeId: unique id for the item’s height or width
- * value: the unmodified value passed to the heightList or widthList
- * cssValue: the computed css value to be used
- * @type {*[]}
- */
-const heightList = [];
-const widthList = [];
-
-// const getSizeOf = (sizeId, isWidth = false) => ({});
-// const setSizeOf = (sizeId, value, isWidth = false) => {
-//   const list = isWidth ? widthList : heightList;
-//
-//   if (list.some(({ sizeId: itemId }) => itemId === sizeId)) {
-//
-//   } else {
-//
-//   }
-// };
-//
-// const getHeightOf = sizeId => getSizeOf(sizeId);
-// const getWidthOf = sizeId => getSizeOf(sizeId, true);
-//
-// const setHeightOf = (sizeId, value) => setSizeOf(sizeId, value);
-// const setWidthOf = (sizeId, value) => setSizeOf(sizeId, value, true);
-
-/**
  * Maintains a list of heights and widths.
  * Each array item should be an object { sizeId, value, cssValue }
  * sizeId: unique id for the item’s height or width
@@ -36,14 +9,49 @@ const widthList = [];
  * @returns {{heights: [], widths: []}}
  */
 const setupSizes = () => {
+  /**
+   * Shape of object is:
+   * sizeId: unique id for the item’s height or width
+   * value: the unmodified value passed to the heightList or widthList
+   * cssValue: the computed css value to be used
+   * @type {*[]}
+   */
   const heights = [];
   const widths = [];
 
-  return () => ({
-    heights,
-    widths,
-    // TODO: add getters and setters here
-  });
+  const getSizeOf = (sizeId, isWidth = false) =>
+    (isWidth ? widths : heights).find(item => item.sizeId === sizeId);
+
+  const setSizeOf = (sizeId, value, isWidth = false) => {
+    const updateIndex = (isWidth ? widths : heights).findIndex(item => item.sizeId === sizeId);
+
+    if (updateIndex !== -1) {
+      (isWidth ? widths : heights)[updateIndex] = {
+        sizeId,
+        value,
+      };
+    } else {
+      (isWidth ? widths : heights).push({
+        sizeId,
+        value,
+      });
+    }
+
+    (isWidth ? widths : heights).forEach((item, i) => {
+      (isWidth ? widths : heights)[i] = {
+        sizeId,
+        value,
+        cssValue: '50%', // TODO: calc css values
+      };
+    });
+  };
+
+  return (() => ({
+    getHeightOf: sizeId => getSizeOf(sizeId),
+    getWidthOf: sizeId => getSizeOf(sizeId, true),
+    setHeightOf: (sizeId, value) => setSizeOf(sizeId, value),
+    setWidthOf: (sizeId, value) => setSizeOf(sizeId, value, true),
+  }))();
 };
 
 const AutoSizeContext = createContext(setupSizes());
