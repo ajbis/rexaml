@@ -21,12 +21,12 @@ export const canvas = () => {
   const heightType = select('Height type', ['Auto', '*', 'Number'], 'Auto');
   const heightTitle = heightType === 'Number' ?
     'Height in pixels' :
-    'Height is proportional (0 to 1)';
+    'Height is proportional';
 
   const widthType = select('Width type', ['Auto', '*', 'Number'], 'Auto');
   const widthTitle = widthType === 'Number' ?
     'Width in pixels' :
-    'Width is proportional (0 to 1)';
+    'Width is proportional';
 
   const heightValue = number(
     heightType === 'Auto' ? 'Height value ignored' : heightTitle,
@@ -38,8 +38,8 @@ export const canvas = () => {
     widthType === 'Number' ? 100 : 1
   );
 
-  const height = heightType === '*' ? `${!heightValue || heightValue === 1 ? '' : heightValue}*` : heightValue;
-  const width = widthType === '*' ? `${!widthValue || widthValue === 1 ? '' : widthValue}*` : widthValue;
+  const height = heightType !== 'Number' ? `${!heightValue || heightValue === 1 ? '' : heightValue}*` : heightValue;
+  const width = widthType !== 'Number' ? `${!widthValue || widthValue === 1 ? '' : widthValue}*` : widthValue;
 
   return (
     <Page>

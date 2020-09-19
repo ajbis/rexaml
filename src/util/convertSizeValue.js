@@ -3,7 +3,7 @@
  * @returns {string} CSS value
  */
 export default value => {
-  console.log('value...', value);
+  // console.log('value...', value);
 
   if (value instanceof Number) {
     // TODO: return in rems after getting the current CSS :root value

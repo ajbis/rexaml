@@ -6,7 +6,7 @@ import sizePropType from '../../../util/sizePropType';
 import { Consumer, Provider, createSizes } from '../../context/AutoSizeContext';
 import useSizeId from '../../hooks/useSizeId';
 
-const Element = styled.div((Height, Width) => ({
+const Element = styled.div(({ Height, Width }) => ({
   height: Height, // convertSizeValue(Height),
   width: Width, // convertSizeValue(Width),
 }));
@@ -28,6 +28,9 @@ const Canvas = ({ Height = 'Auto', Width = 'Auto', children }) => {
       }) => {
         setHeightOf(sizeId, Height);
         setWidthOf(sizeId, Width);
+
+        console.log('Height', getHeightOf(sizeId).cssValue);
+        console.log('Width', getWidthOf(sizeId).cssValue);
 
         return (
           <Element className="Canvas" Height={getHeightOf(sizeId).cssValue} Width={getWidthOf(sizeId).cssValue}>

@@ -3,8 +3,8 @@ const isProportionalValue = value => typeof value === 'string' && /^(\*|\d+\*|\d
 const sizePropTypeTest = (props, propName, componentName) => {
   const value = props[propName];
 
-  console.log(propName, value, !isNaN(value), value === 'Auto', isProportionalValue(value));
-  console.log('...', typeof value, typeof value === 'string', /^(\*|\d+\*|\d+\.\d+\*)$/.test(value));
+  // console.log(propName, value, !isNaN(value), value === 'Auto', isProportionalValue(value));
+  // console.log('...', typeof value, typeof value === 'string', /^(\*|\d+\*|\d+\.\d+\*)$/.test(value));
 
   if (!isNaN(value) || value === 'Auto' || isProportionalValue(value)) {
     return null;
