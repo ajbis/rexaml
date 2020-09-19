@@ -18,7 +18,11 @@ const Page = ({ children }) => (
 );
 
 Page.propTypes = {
-  children: PropTypes.shape(PropTypes.oneOf([Canvas])),
+  children: PropTypes.arrayOf(
+    PropTypes.shape({
+      type: PropTypes.oneOf([Canvas])
+    })
+  ),
 };
 
 export default Page;

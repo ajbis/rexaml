@@ -19,41 +19,43 @@ const Content = styled.div(({ background }) => ({
 
 export const canvas = () => {
   const heightType = select('Height type', ['Auto', '*', 'Number'], 'Auto');
-  const heightValue = heightType !== 'Auto' ?
-      number(
-          heightType === '*' ?
-              'Proportional height (0 to 1)' :
-              'Height in pixels',
-          heightType === '*' ? 1 : 100
-      ) : 'Auto';
+  const heightTitle = heightType === 'Number' ?
+    'Height in pixels' :
+    'Height is proportional (0 to 1)';
 
   const widthType = select('Width type', ['Auto', '*', 'Number'], 'Auto');
-  const widthValue = widthType !== 'Auto' ?
-    number(
-    widthType === '*' ?
-          'Proportional width (0 to 1)' :
-          'Width in pixels',
-        widthType === '*' ? 1 : 100
-    ) : 'Auto';
+  const widthTitle = widthType === 'Number' ?
+    'Width in pixels' :
+    'Width is proportional (0 to 1)';
 
-  console.log('height?', heightType === '*' ? `${heightValue}*` : heightValue);
-  console.log('width?', widthType === '*' ? `${widthValue}*` : widthValue);
+  const heightValue = number(
+    heightType === 'Auto' ? 'Height value ignored' : heightTitle,
+    heightType === 'Number' ? 100 : 1
+  );
+
+  const widthValue = number(
+    widthType === 'Auto' ? 'Width value ignored' : widthTitle,
+    widthType === 'Number' ? 100 : 1
+  );
+
+  const height = heightType === '*' ? `${!heightValue || heightValue === 1 ? '' : heightValue}*` : heightValue;
+  const width = widthType === '*' ? `${!widthValue || widthValue === 1 ? '' : widthValue}*` : widthValue;
 
   return (
-      <Page>
-        <Canvas
-          Height={heightType === '*' ? `${heightValue}*` : heightValue}
-          Width={widthType === '*' ? `${widthValue}*` : widthValue}
-        >
-          <Content background="red">Canvas 1</Content>
-        </Canvas>
-        <Canvas
-          Height={heightType === '*' ? `${heightValue}*` : heightValue}
-          Width={widthType === '*' ? `${widthValue}*` : widthValue}
-        >
-          <Content background="green">Canvas 2</Content>
-        </Canvas>
-      </Page>
+    <Page>
+      <Canvas
+        Height={height}
+        Width={width}
+      >
+        <Content background="red">Canvas 1</Content>
+      </Canvas>
+      <Canvas
+        Height={height}
+        Width={width}
+      >
+        <Content background="green">Canvas 2</Content>
+      </Canvas>
+    </Page>
   );
 };
 

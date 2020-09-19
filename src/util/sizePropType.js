@@ -1,9 +1,12 @@
-const isProportionalValue = value => value instanceof String && /^(\*|\d+\*|\d+\.\d+\*)$/.test(value);
+const isProportionalValue = value => typeof value === 'string' && /^(\*|\d+\*|\d+\.\d+\*)$/.test(value);
 
 const sizePropTypeTest = (props, propName, componentName) => {
   const value = props[propName];
 
-  if (isNaN(value) || value === 'Auto' || isProportionalValue(value) ) {
+  console.log(propName, value, !isNaN(value), value === 'Auto', isProportionalValue(value));
+  console.log('...', typeof value, typeof value === 'string', /^(\*|\d+\*|\d+\.\d+\*)$/.test(value));
+
+  if (!isNaN(value) || value === 'Auto' || isProportionalValue(value)) {
     return null;
   }
 
@@ -17,11 +20,9 @@ const sizePropType = (props, propName, componentName) => {
     return null;
   }
 
-  return sizePropTypeTest;
+  return sizePropTypeTest(props, propName, componentName);
 };
 
 sizePropType.isRequired = sizePropTypeTest;
 
-export default {
-  sizePropType,
-};
+export default sizePropType;

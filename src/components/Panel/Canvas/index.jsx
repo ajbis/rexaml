@@ -1,8 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import sizePropType from '../../../util/sizePropType';
-import convertSizeValue from '../../../util/convertSizeValue';
+// import convertSizeValue from '../../../util/convertSizeValue';
 import { Consumer, Provider, createSizes } from '../../context/AutoSizeContext';
 import useSizeId from '../../hooks/useSizeId';
 
