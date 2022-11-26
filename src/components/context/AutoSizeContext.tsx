@@ -1,5 +1,18 @@
 import { createContext } from 'react';
 
+type SizeType = {
+  sizeId: number;
+  value?: string | number;
+  cssValue?: string;
+};
+
+type AutoSizeContextType = {
+  getHeightOf: (sizeId: number) => SizeType | undefined,
+  getWidthOf: (sizeId: number) => SizeType | undefined,
+  setHeightOf: (sizeId: number, value?: string | number) => void,
+  setWidthOf: (sizeId: number, value?: string | number) => void,
+};
+
 /**
  * Maintains a list of heights and widths.
  * Each array item should be an object { sizeId, value, cssValue }
@@ -8,7 +21,7 @@ import { createContext } from 'react';
  * cssValue: the computed css value to be used
  * @returns {{heights: [], widths: []}}
  */
-const setupSizes = () => {
+const setupSizes = (): AutoSizeContextType => {
   /**
    * Shape of object is:
    * sizeId: unique id for the item’s height or width
@@ -16,13 +29,13 @@ const setupSizes = () => {
    * cssValue: the computed css value to be used
    * @type {*[]}
    */
-  const heights = [];
-  const widths = [];
+  const heights: SizeType[] = [];
+  const widths: SizeType[] = [];
 
-  const getSizeOf = (sizeId, isWidth = false) =>
+  const getSizeOf = (sizeId: number, isWidth = false) =>
     (isWidth ? widths : heights).find(item => item.sizeId === sizeId);
 
-  const setSizeOf = (sizeId, value, isWidth = false) => {
+  const setSizeOf = (sizeId: number, value?: string | number, isWidth = false) => {
     const updateIndex = (isWidth ? widths : heights).findIndex(item => item.sizeId === sizeId);
 
     if (updateIndex !== -1) {
@@ -46,7 +59,7 @@ const setupSizes = () => {
     });
   };
 
-  return (() => ({
+  return ((): AutoSizeContextType => ({
     getHeightOf: sizeId => getSizeOf(sizeId),
     getWidthOf: sizeId => getSizeOf(sizeId, true),
     setHeightOf: (sizeId, value) => setSizeOf(sizeId, value),

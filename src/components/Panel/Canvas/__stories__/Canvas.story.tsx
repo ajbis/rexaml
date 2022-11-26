@@ -1,42 +1,48 @@
-import React from 'react';
+import React, {CSSProperties} from 'react';
 import styled from 'styled-components';
 import { withA11y } from '@storybook/addon-a11y';
-import { withKnobs, number, select } from '@storybook/addon-knobs';
 import Page from '../../../Page/Page';
 import Canvas from '../index';
 
-export default {
-  title: 'Panel',
-  component: Canvas,
-  decorators: [ withA11y, withKnobs ],
+type ContentProps = {
+  background?: CSSProperties['background'];
 };
 
-const Content = styled.div(({ background }) => ({
+export default {
+  title: 'Panel/Canvas',
+  component: Canvas,
+  decorators: [ withA11y ],
+};
+
+const Content = styled.div<ContentProps>(({ background }) => ({
   background,
   height: '100%',
   width: '100&',
 }));
 
 export const canvas = () => {
-  const heightType = select('Height type', ['Auto', '*', 'Number'], 'Auto');
+  const heightType = 'Number'; // select('Height type', ['Auto', '*', 'Number'], 'Auto');
   const heightTitle = heightType === 'Number' ?
     'Height in pixels' :
     'Height is proportional';
 
-  const widthType = select('Width type', ['Auto', '*', 'Number'], 'Auto');
+  const widthType = 'Number'; // select('Width type', ['Auto', '*', 'Number'], 'Auto');
   const widthTitle = widthType === 'Number' ?
     'Width in pixels' :
     'Width is proportional';
 
-  const heightValue = number(
-    heightType === 'Auto' ? 'Height value ignored' : heightTitle,
-    heightType === 'Number' ? 100 : 1
-  );
+  const heightValue = 1;
+  const widthValue = 1;
 
-  const widthValue = number(
-    widthType === 'Auto' ? 'Width value ignored' : widthTitle,
-    widthType === 'Number' ? 100 : 1
-  );
+  // const heightValue = number(
+  //   heightType === 'Auto' ? 'Height value ignored' : heightTitle,
+  //   heightType === 'Number' ? 100 : 1
+  // );
+  //
+  // const widthValue = number(
+  //   widthType === 'Auto' ? 'Width value ignored' : widthTitle,
+  //   widthType === 'Number' ? 100 : 1
+  // );
 
   const height = heightType !== 'Number' ? `${!heightValue || heightValue === 1 ? '' : heightValue}*` : heightValue;
   const width = widthType !== 'Number' ? `${!widthValue || widthValue === 1 ? '' : widthValue}*` : widthValue;
@@ -58,4 +64,3 @@ export const canvas = () => {
     </Page>
   );
 };
-

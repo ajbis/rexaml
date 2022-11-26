@@ -1,39 +1,44 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, {FC, PropsWithChildren} from 'react';
 import styled from 'styled-components';
-import sizePropType from '../../../util/sizePropType';
 // import convertSizeValue from '../../../util/convertSizeValue';
 import { Consumer, Provider, createSizes } from '../../context/AutoSizeContext';
 import useSizeId from '../../hooks/useSizeId';
 
-const Element = styled.div(({ Height, Width }) => ({
+type ElementProps = {
+  Height?: string | number;
+  Width?: string | number;
+};
+
+const Element = styled.div<ElementProps>(({ Height, Width }) => ({
   height: Height, // convertSizeValue(Height),
   width: Width, // convertSizeValue(Width),
 }));
+
+type CanvasProps = PropsWithChildren<ElementProps>;
 
 /**
  * Defines an area within which you can explicitly position child objects,
  * using coordinates that are relative to the Canvas area.
  */
-const Canvas = ({ Height = 'Auto', Width = 'Auto', children }) => {
+const Canvas: FC<CanvasProps> = ({ Height = 'Auto', Width = 'Auto', children }) => {
   const sizeId = useSizeId();
 
   return (
     <Consumer>
       {({
-        getHeightOf,
-        getWidthOf,
-        setHeightOf,
-        setWidthOf,
-      }) => {
+          getHeightOf,
+          getWidthOf,
+          setHeightOf,
+          setWidthOf,
+        }) => {
         setHeightOf(sizeId, Height);
         setWidthOf(sizeId, Width);
 
-        console.log('Height', getHeightOf(sizeId).cssValue);
-        console.log('Width', getWidthOf(sizeId).cssValue);
+        console.log('Height', getHeightOf(sizeId)?.cssValue);
+        console.log('Width', getWidthOf(sizeId)?.cssValue);
 
         return (
-          <Element className="Canvas" Height={getHeightOf(sizeId).cssValue} Width={getWidthOf(sizeId).cssValue}>
+          <Element className="Canvas" Height={getHeightOf(sizeId)?.cssValue} Width={getWidthOf(sizeId)?.cssValue}>
             <Provider value={createSizes()}>
               {children}
             </Provider>
@@ -42,12 +47,6 @@ const Canvas = ({ Height = 'Auto', Width = 'Auto', children }) => {
       }}
     </Consumer>
   )
-};
-
-Canvas.propTypes = {
-  Height: sizePropType,
-  Width: sizePropType,
-  children: PropTypes.node,
 };
 
 export default Canvas;
